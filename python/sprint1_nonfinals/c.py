@@ -1,8 +1,26 @@
+"""
+Дана матрица. Нужно написать функцию, которая для элемента возвращает всех
+его соседей. Соседним считается элемент, находящийся от текущего на одну
+ячейку влево, вправо, вверх или вниз. Диагональные элементы соседними не
+считаются.
+"""
+
+
 from typing import List, Tuple
 
+
 def get_neighbours(matrix: List[List[int]], row: int, col: int) -> List[int]:
-    # Здесь реализация вашего решения
-    pass
+    result = []
+    if row >= 1:
+        result.append(matrix[row - 1][col])
+    if row < len(matrix) - 1:
+        result.append(matrix[row + 1][col])
+    if col >= 1:
+        result.append(matrix[row][col - 1])
+    if col < len(matrix[row]) - 1:
+        result.append(matrix[row][col + 1])
+    return sorted(result)
+
 
 def read_input() -> Tuple[List[List[int]], int, int]:
     n = int(input())
@@ -14,5 +32,8 @@ def read_input() -> Tuple[List[List[int]], int, int]:
     col = int(input())
     return matrix, row, col
 
+
 matrix, row, col = read_input()
-print(" ".join(map(str, get_neighbours(matrix, row, col))))
+
+if __name__ == '__main__':
+    print(' '.join(map(str, get_neighbours(matrix, row, col))))
