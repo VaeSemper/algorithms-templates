@@ -1,5 +1,11 @@
 # ! change LOCAL to False before submitting !
 # set LOCAL to True for local testing
+"""
+Вася решил запутать маму —– делать дела в обратном порядке. Список его
+дел теперь хранится в двусвязном списке. Напишите функцию, которая вернёт
+список в обратном порядке.
+"""
+
 
 LOCAL = True
 
@@ -10,16 +16,26 @@ if LOCAL:
             self.next = next  
             self.prev = prev
 
+
 def solution(node):
-    # Your code
-    # ヽ(´▽`)/
-    pass
+    n = node
+    m = n.next
+    n.next = None
+    n.prev = m
+    while m is not None:
+        m.prev = m.next
+        m.next = n
+        n = m
+        m = m.prev
+    node = n
+    return node
+
 
 def test():
-    node3 = DoubleConnectedNode("node3")
-    node2 = DoubleConnectedNode("node2")
-    node1 = DoubleConnectedNode("node1")
-    node0 = DoubleConnectedNode("node0")
+    node3 = DoubleConnectedNode('node3')
+    node2 = DoubleConnectedNode('node2')
+    node1 = DoubleConnectedNode('node1')
+    node0 = DoubleConnectedNode('node0')
 
     node0.next = node1
 
@@ -38,6 +54,7 @@ def test():
     assert node1.next is node0 
     assert node1.prev is node2
     assert node0.prev is node1
+
 
 if __name__ == '__main__':
     test()
