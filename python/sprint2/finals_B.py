@@ -1,15 +1,12 @@
-# 70572804
-
-
 class Stack:
     def __init__(self):
-        self.items = []
+        self.__items = []
 
     def push(self, item):
-        self.items.append(item)
+        self.__items.append(item)
 
     def pop(self):
-        return self.items.pop()
+        return self.__items.pop()
 
 
 def calc(operand_operations_list):
