@@ -1,47 +1,49 @@
-# 70459088
+# 70681534
+
+
+class FullDeckError(Exception):
+    pass
 
 
 class Deck:
     def __init__(self, deck_max_size):
-        self.deck = [None] * deck_max_size
-        self.head = 0
-        self.tail = 0
-        self.deck_size = 0
-        self.max_size = deck_max_size
+        self.__deck = [None] * deck_max_size
+        self.__head = 0
+        self.__tail = 0
+        self.__deck_size = 0
+        self.__max_size = deck_max_size
 
     def is_empty(self):
-        return self.deck_size == 0
+        return self.__deck_size == 0
 
     def push_back(self, value):
-        if self.deck_size != self.max_size:
-            self.deck[self.tail] = value
-            self.tail = (self.tail + 1) % self.max_size
-            self.deck_size += 1
-        else:
-            print('error')
+        if self.__deck_size == self.__max_size:
+            raise FullDeckError()
+        self.__deck[self.__tail] = value
+        self.__tail = (self.__tail + 1) % self.__max_size
+        self.__deck_size += 1
 
     def push_front(self, value):
-        if self.deck_size != self.max_size:
-            self.deck[self.head - 1] = value
-            self.head = (self.head - 1) % self.max_size
-            self.deck_size += 1
-        else:
-            print('error')
+        if self.__deck_size == self.__max_size:
+            raise FullDeckError()
+        self.__deck[self.__head - 1] = value
+        self.__head = (self.__head - 1) % self.__max_size
+        self.__deck_size += 1
 
-    def pop_front(self):
+    def pop_front(self, *args):
         if self.is_empty():
-            return 'error'
-        value, self.deck[self.head] = self.deck[self.head], None
-        self.head = (self.head + 1) % self.max_size
-        self.deck_size -= 1
+            raise FullDeckError()
+        value, self.__deck[self.__head] = self.__deck[self.__head], None
+        self.__head = (self.__head + 1) % self.__max_size
+        self.__deck_size -= 1
         return value
 
-    def pop_back(self):
+    def pop_back(self, *args):
         if self.is_empty():
-            return 'error'
-        value, self.deck[self.tail - 1] = self.deck[self.tail - 1], None
-        self.tail = (self.tail - 1) % self.max_size
-        self.deck_size -= 1
+            raise FullDeckError()
+        value, self.__deck[self.__tail - 1] = self.__deck[self.__tail - 1], None
+        self.__tail = (self.__tail - 1) % self.__max_size
+        self.__deck_size -= 1
         return value
 
 
@@ -55,15 +57,13 @@ def main():
     command_cnt, deck_size = read_input()
     deck = Deck(deck_size)
     for i in range(command_cnt):
-        command = input()
-        if command.startswith('push_back'):
-            deck.push_back(command.split()[1])
-        elif command.startswith('push_front'):
-            deck.push_front(command.split()[1])
-        elif command == 'pop_back':
-            print(deck.pop_back())
-        elif command == 'pop_front':
-            print(deck.pop_front())
+        command = input().split()
+        try:
+            result = getattr(deck, command[0])(command[-1])
+            if result:
+                print(result)
+        except FullDeckError:
+            print('error')
 
 
 if __name__ == '__main__':
