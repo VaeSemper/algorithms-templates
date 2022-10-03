@@ -1,4 +1,4 @@
-# 71199675
+# 71199755
 from collections import namedtuple
 
 
@@ -28,7 +28,7 @@ def quick_sort(members, left, right):
 
 
 def read_and_prepare_data():
-    _Member = namedtuple('Member', 'penalty tasks name')
+    Member = namedtuple('Member', 'penalty tasks name')
 
     def create_member(member):
         typed_data = {
@@ -36,7 +36,7 @@ def read_and_prepare_data():
             'penalty': -int(member[1]),
             'tasks': int(member[2]),
         }
-        return _Member(**typed_data)
+        return Member(**typed_data)
 
     default_left = 0
     number_of_members = int(input())
