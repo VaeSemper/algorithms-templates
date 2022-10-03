@@ -1,44 +1,51 @@
-# 71080727
+# 71199675
+from collections import namedtuple
 
 
-def qs_parting(member, left, right):
-    pivot = (member[left])
+def qs_parting(members, left, right):
+    pivot = members[left]
     major_l = left + 1
     minor_r = right - 1
     while True:
-        if major_l <= minor_r and member[major_l] < pivot:
+        if major_l <= minor_r and members[major_l] < pivot:
             major_l += 1
-        elif major_l <= minor_r and member[minor_r] > pivot:
+        elif major_l <= minor_r and members[minor_r] > pivot:
             minor_r -= 1
-        elif member[minor_r] > pivot or member[major_l] < pivot:
+        elif members[minor_r] > pivot or members[major_l] < pivot:
             continue
         if major_l <= minor_r:
-            member[major_l], member[minor_r] = member[minor_r], member[major_l]
+            members[major_l], members[minor_r] = members[minor_r], members[major_l]  # noqa: E501
         else:
-            member[left], member[minor_r] = member[minor_r], member[left]
+            members[left], members[minor_r] = members[minor_r], members[left]
             return minor_r
 
 
-def quick_sort(member, left, right):
-    if (right - left) > 1:
-        part_result = qs_parting(member, left, right)
-        quick_sort(member, left, part_result)
-        quick_sort(member, part_result + 1, right)
+def quick_sort(members, left, right):
+    if right - left > 1:
+        part_result = qs_parting(members, left, right)
+        quick_sort(members, left, part_result)
+        quick_sort(members, part_result + 1, right)
 
 
-def read_input():
-    def typing_member(member):
-        member[1] = -int(member[1])
-        member[2] = int(member[2])
-        return [member[1], member[2], member[0]]
-    count = int(input())
-    member = [typing_member(input().split()) for _ in range(count)]
-    return count, member
+def read_and_prepare_data():
+    _Member = namedtuple('Member', 'penalty tasks name')
+
+    def create_member(member):
+        typed_data = {
+            'name': member[0],
+            'penalty': -int(member[1]),
+            'tasks': int(member[2]),
+        }
+        return _Member(**typed_data)
+
+    default_left = 0
+    number_of_members = int(input())
+    members = [create_member(input().split()) for _ in range(number_of_members)]  # noqa: E501
+    return default_left, number_of_members, members
 
 
 if __name__ == '__main__':
-    default_left = 0
-    count, member = read_input()
-    quick_sort(member, default_left, len(member))
-    result = list(zip(*member))[2]
-    print(*result, sep='\n')
+    default_left, number_of_members, members = read_and_prepare_data()
+    quick_sort(members, default_left, number_of_members)
+    for member in members:
+        print(member.name)
