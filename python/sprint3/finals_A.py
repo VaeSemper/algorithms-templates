@@ -1,4 +1,4 @@
-# 71079185
+# 71199806
 
 
 def broken_search(nums, target) -> int:
@@ -9,12 +9,12 @@ def broken_search(nums, target) -> int:
         if nums[mid] == target:
             return mid
         if nums[mid] >= nums[left]:
-            if target >= nums[left] and target < nums[mid]:
+            if nums[left] <= target < nums[mid]:
                 right = mid - 1
             else:
                 left = mid + 1
         else:
-            if target > nums[mid] and target <= nums[right]:
+            if nums[mid] < target <= nums[right]:
                 left = mid + 1
             else:
                 right = mid - 1
