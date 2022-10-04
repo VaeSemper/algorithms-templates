@@ -14,7 +14,8 @@ def qs_parting(members, left, right):
         elif members[minor_r] > pivot or members[major_l] < pivot:
             continue
         if major_l <= minor_r:
-            members[major_l], members[minor_r] = members[minor_r], members[major_l]  # noqa: E501
+            members[major_l], members[minor_r] = members[minor_r], members[
+                major_l]
         else:
             members[left], members[minor_r] = members[minor_r], members[left]
             return minor_r
@@ -40,7 +41,9 @@ def read_and_prepare_data():
 
     default_left = 0
     number_of_members = int(input())
-    members = [create_member(input().split()) for _ in range(number_of_members)]  # noqa: E501
+    members = [
+        create_member(input().split()) for _ in range(number_of_members)
+    ]
     return default_left, number_of_members, members
 
 
